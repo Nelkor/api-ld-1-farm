@@ -18,9 +18,14 @@ function response($content = null)
 
 /**
  * Возвращает ответ клиенту в случае провала
+ *
+ * @param string $reason
  */
-function reject()
+function reject(string $reason = null)
 {
-    echo '{}';
+    echo $reason
+        ? json_encode(['reason' => $reason])
+        : '{}';
+
     exit;
 }

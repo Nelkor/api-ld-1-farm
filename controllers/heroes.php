@@ -14,13 +14,35 @@ function getAllHeroesAction()
 
 function addHeroAction()
 {
-    echo '<pre>';
-    print_r($_SERVER);
-    echo '</pre>';
+    $token = $_SERVER['HTTP_TOKEN'] ?? null;
 
-    $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+    if (!$token || !isTokenValid($token)) reject('token');
 
-    if (!$token || !isTokenValid($token)) reject();
+    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    $stat = filter_input(INPUT_POST, 'stat', FILTER_VALIDATE_INT);
+    $img = filter_input(INPUT_POST, 'img', FILTER_SANITIZE_STRING);
+    $result = filter_input(INPUT_POST, 'result', FILTER_VALIDATE_INT);
+    $youtubeId = filter_input(INPUT_POST, 'youtubeId', FILTER_SANITIZE_STRING);
 
-    response('Add hero');
+    $name = trim($name);
+    $result = +$result;
+
+    $ready = $name && $stat && $img;
+
+    if (!$ready) reject('params');
+
+    $hero = [
+        'name' => $name,
+        'stat' => $stat,
+        'img' => $img,
+        'result' => $result,
+        'youtubeId' => $youtubeId,
+        'createdAt' => time(),
+    ];
+
+    $id = createHero($hero);
+
+    if (!$id) reject('db');
+
+    response($id);
 }
