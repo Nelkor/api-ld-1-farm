@@ -1,0 +1,15 @@
+CREATE TABLE `heroes` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    `name` TINYTEXT NOT NULL,
+    `stat` TINYINT NOT NULL,
+    `img` TINYTEXT NOT NULL,
+    `result` INT UNSIGNED,
+    `youtubeId` TINYTEXT,
+
+    `createdAt` INT UNSIGNED NOT NULL DEFAULT 0,
+    `updatedAt` INT UNSIGNED NOT NULL DEFAULT 0,
+    `deletedAt` INT UNSIGNED NOT NULL DEFAULT 0,
+
+    PRIMARY KEY (`id`)
+);
