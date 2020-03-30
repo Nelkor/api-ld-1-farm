@@ -13,11 +13,20 @@ function isValidImg($img)
         && $img['type'] == 'image/jpeg';
 }
 
+function prepareHero($hero)
+{
+    $hero['id'] = +$hero['id'];
+    $hero['stat'] = +$hero['stat'];
+    $hero['result'] = +$hero['result'];
+
+    return $hero;
+}
+
 function getAllHeroesAction()
 {
     $heroes = allHeroes();
 
-    response($heroes);
+    response(array_map('prepareHero', $heroes));
 }
 
 function addHeroAction()
@@ -59,5 +68,5 @@ function addHeroAction()
 
     if (!$id) reject('db');
 
-    response($id);
+    response(['id' => +$id, 'img' => $img]);
 }

@@ -6,7 +6,12 @@ function allHeroes()
 
     $query = "
         SELECT
-            *
+            id,
+            name,
+            stat,
+            img,
+            result,
+            youtubeId
         FROM heroes
         WHERE deletedAt = 0
     ";
