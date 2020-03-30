@@ -16,6 +16,16 @@ function allHeroes()
     return $state->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function postHeroImage($img)
+{
+    $uploadDir = '/var/www/ld-1/images/';
+    $fileName = rand(10000, 99999) . time() . '_' . $img['name'];
+
+    move_uploaded_file($img['tmp_name'], $uploadDir . $fileName);
+
+    return $fileName;
+}
+
 function createHero($hero)
 {
     $pdo = pdo();
