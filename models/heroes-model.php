@@ -31,6 +31,26 @@ function postHeroImage($img)
     return $fileName;
 }
 
+function removeHeroImage(string $img)
+{
+    unlink("/var/www/ld-1/images/$img");
+}
+
+function imgByHeroId(int $id)
+{
+    $pdo = pdo();
+
+    $query = "
+        SELECT img
+        FROM heroes
+        WHERE id = $id
+    ";
+
+    $state = $pdo->query($query);
+
+    return $state->fetch(PDO::FETCH_ASSOC)['img'];
+}
+
 function createHero($hero)
 {
     $pdo = pdo();
@@ -57,4 +77,33 @@ function createHero($hero)
     }
 
     return $pdo->lastInsertId();
+}
+
+function updateHero($hero)
+{
+    $pdo = pdo();
+
+    $query = "
+        REPLACE INTO heroes
+        (`id`, `name`, `stat`, `img`, `result`, `youtubeId`, `updatedAt`)
+        VALUES
+        (
+            :id,
+            :name,
+            :stat,
+            :img,
+            :result,
+            :youtubeId,
+            :updatedAt
+        )
+    ";
+
+    try {
+        $state = $pdo->prepare($query);
+        $state->execute($hero);
+    } catch (PDOException $e) {
+        return false;
+    }
+
+    return true;
 }
