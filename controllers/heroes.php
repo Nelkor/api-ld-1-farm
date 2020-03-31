@@ -131,4 +131,11 @@ function updateHeroAction()
 function removeHeroAction()
 {
     if (!checkAuth()) reject('token');
+
+    $id = +filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+    removeHeroImage(imgByHeroId($id));
+    removeHero($id);
+
+    response();
 }

@@ -107,3 +107,11 @@ function updateHero($hero)
 
     return true;
 }
+
+function removeHero($id)
+{
+    $pdo = pdo();
+    $now = time();
+
+    $pdo->query("UPDATE heroes SET deletedAt = $now WHERE id = $id");
+}
